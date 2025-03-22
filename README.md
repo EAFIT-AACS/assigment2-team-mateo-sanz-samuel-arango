@@ -16,9 +16,7 @@ Aquí tienes el README.md actualizado con los nombres de los autores y el nombre
 ## **Project Overview**  
 This project implements a **Context-Free Grammar (CFG) processor** that generates, validates, and visualizes derivations for strings following the grammar:  
 
-\[
-S \to aSb \ | \ \varepsilon
-\]  
+$$ S \to aSb \mid \varepsilon $$  
 
 The system consists of three main algorithms:  
 1. **String Generator:** Creates valid and invalid strings based on the grammar.  
