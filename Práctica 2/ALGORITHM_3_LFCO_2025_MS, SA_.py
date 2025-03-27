@@ -1,57 +1,42 @@
-class NodoArbol:
-    """Clase para representar un nodo en el árbol de derivación."""
-    def __init__(self, valor):
-        self.valor = valor
-        self.hijos = []
+def simulate_pda(string):
+    
+    stack = ['S']  
+    steps = []  
+    state = 'q'  
 
-    def agregar_hijo(self, hijo):
-        self.hijos.append(hijo)
+    steps.append((state, string, ''.join(stack)))  # Inic st
 
-    def imprimir(self, nivel=0):
-        """Imprime el árbol con indentación para visualizar la estructura."""
-        print("  " * nivel + self.valor)
-        for hijo in self.hijos:
-            hijo.imprimir(nivel + 1)
+    while stack:
+        top = stack.pop()  
 
+        if top == 'S':
+            if string and string[0] == 'a' and string[-1] == 'b':
+                if len(string) > 2:  
+                    stack.append('B')  
+                    stack.append('S')  
+                else:
+                    stack.append('B')  
+                string = string[1:-1]  
 
-def construir_arbol_derivacion(cadena):
-    """Construye el árbol de derivación para una cadena generada por la gramática S -> aSb | ε."""
-    raiz = NodoArbol("S")
-    nodo_actual = raiz
-    pila_nodos = []  # Para rastrear el nodo `S` en cada nivel
+        elif top == 'B':
+            pass  # `B` solo sirve como marcador, no cambia la cadena
 
-    for char in cadena:
-        if char == "a":
-            nuevo_nodo = NodoArbol("aSb")  # Aplicamos S → aSb
-            nodo_actual.agregar_hijo(NodoArbol("a"))
-            nodo_siguiente = NodoArbol("S")
-            nodo_actual.agregar_hijo(nodo_siguiente)
-            nodo_actual.agregar_hijo(NodoArbol("b"))
-            pila_nodos.append(nodo_actual)  # Guardamos referencia al nodo padre
-            nodo_actual = nodo_siguiente  # Avanzamos en la derivación
+        # Guardamos el estado actual del PDA
+        steps.append((state, string, ''.join(stack) if stack else 'ε'))  
 
-    nodo_actual.agregar_hijo(NodoArbol("ε"))  # Terminamos la derivación con ε
-    return raiz
-
-
-def leer_cadenas_aceptadas(nombre_archivo):
-    """Lee las cadenas aceptadas desde un archivo de texto."""
-    try:
-        with open(nombre_archivo, "r") as file:
-            return [line.strip() for line in file.readlines()]
-    except FileNotFoundError:
-        print("Error: No se encontró el archivo de cadenas aceptadas.")
-        return []
+    # Imprimir el proceso paso a paso en consola
+    print("Simulación del PDA en la cadena de entrada:")
+    for step in steps:
+        print(step)
 
 
 if __name__ == "__main__":
-    archivo_cadenas = "accepted_strings.txt"
-    cadenas_aceptadas = leer_cadenas_aceptadas(archivo_cadenas)
+    try:
+        with open("accepted_strings.txt", "r") as file:
+            strings = [line.strip() for line in file.readlines()]
 
-    if not cadenas_aceptadas:
-        print("No hay cadenas aceptadas para procesar.")
-    else:
-        for cadena in cadenas_aceptadas:
-            print(f"\nÁrbol de derivación para '{cadena}':")
-            arbol = construir_arbol_derivacion(cadena)
-            arbol.imprimir()
+        for s in strings:
+            simulate_pda(s)  # Simular el PDA con cada cadena aceptada
+
+    except FileNotFoundError:
+        print("Error: No se encontró el archivo 'accepted_strings.txt'.")
