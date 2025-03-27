@@ -6,7 +6,7 @@
 ## Description
 This project contains three Python algorithms that work together to generate, validate, and simulate a pushdown automaton (PDA) for recognizing strings in the language described by the grammar:
 
-\[ S \to aSb \ | \ \varepsilon \]
+$$ S \to aSb \ | \ \varepsilon $$
 
 The PDA accepts strings of the form `a^n b^n`, ensuring a balanced sequence of 'a' followed by 'b'.
 
