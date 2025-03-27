@@ -54,6 +54,5 @@ Ensure you have Python installed, then execute the scripts in the following orde
 - Ensure that `generated_strings.txt` exists before running the PDA validation script.
 - If `accepted_strings.txt` is empty, it means no valid strings were found.
 
-Enjoy exploring PDAs with this project! 🚀
 
 
